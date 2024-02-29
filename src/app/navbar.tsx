@@ -3,21 +3,24 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
-export default function Navbar() {
+export default function Navigationbar() {
   const pathname = usePathname();
   const router = useRouter();
+
   return (
     <nav className="sticky bg-black top-0 flex py-4 px-16 items-center justify-between border-b-2 border-[#333333] back">
       <div className="flex items-center">
-        <h1 className="text-3xl font-bold mr-12 text-[#ededed]">
-          Navbar<span className="text-sm">.Js</span>
-        </h1>
+        <Link href="/">
+          <h1 className="text-3xl font-bold mr-12 text-[#ededed]">
+            Navbar<span className="text-sm">.Js</span>
+          </h1>
+        </Link>
         <ul className="flex gap-10">
           <Link href="/">
             <li
               className={`font-medium text-md ${
                 pathname === "/"
-                  ? "text-[#0070f3]"
+                  ? "text-[#0070f3] font-semibold"
                   : "text-[#888888] hover:text-[#ededed]"
               } transition-all`}
             >
@@ -28,7 +31,7 @@ export default function Navbar() {
             <li
               className={`font-medium text-md ${
                 pathname === "/about"
-                  ? "text-[#0070f3]"
+                  ? "text-[#0070f3] font-semibold"
                   : "text-[#888888] hover:text-[#ededed]"
               } transition-all`}
             >
@@ -39,7 +42,7 @@ export default function Navbar() {
             <li
               className={`font-medium text-md ${
                 pathname === "/about/profile"
-                  ? "text-[#0070f3]"
+                  ? "text-[#0070f3] font-semibold"
                   : "text-[#888888] hover:text-[#ededed]"
               } transition-all`}
             >

@@ -1,7 +1,27 @@
-import { Input } from "@nextui-org/react";
+"use client";
+
+import { Input } from "@nextui-org/input";
 import Link from "next/link";
+import { useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: e.currentTarget.email.value,
+        password: e.currentTarget.password.value,
+      }),
+    });
+  };
+
   return (
     <section className="bg-black">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -10,29 +30,41 @@ export default function LoginPage() {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight  md:text-2xl text-[#ededed]">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              className="space-y-4 md:space-y-6"
+              onSubmit={(e) => handleLogin(e)}
+            >
               <div>
                 <Input
                   type="email"
                   label="Email"
-                  labelPlacement="outside"
-                  radius="sm"
+                  name="email"
+                  size="lg"
+                  variant="underlined"
+                  isRequired
                 />
               </div>
               <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-[#ededed]"
-                >
-                  Password <span className="text-red-600">*</span>
-                </label>
-                <input
-                  type="password"
+                <Input
+                  label="Password"
                   name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-[#1f1f1f] sm:text-sm rounded-lg block w-full p-3 placeholder-[#ededed]/50"
-                  required
+                  variant="underlined"
+                  size="lg"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  type={isVisible ? "text" : "password"}
+                  isRequired
                 />
               </div>
               <button

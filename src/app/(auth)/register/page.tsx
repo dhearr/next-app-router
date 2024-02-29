@@ -1,6 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { Input } from "@nextui-org/input";
+import { useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 export default function RegisterPage() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   return (
     <section className="bg-black">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -11,51 +21,43 @@ export default function RegisterPage() {
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
-                <label
-                  htmlFor="fullname"
-                  className="block mb-2 text-sm font-medium text-[#ededed]"
-                >
-                  Full Name <span className="text-red-600">*</span>
-                </label>
-                <input
+                <Input
                   type="text"
-                  name="fullname"
-                  id="fullname"
-                  className="bg-[#1f1f1f] sm:text-sm rounded-lg block w-full p-3 placeholder-[#ededed]/50"
-                  placeholder="example name"
-                  required
+                  label="Fullname"
+                  size="lg"
+                  variant="underlined"
+                  isRequired
                 />
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-[#ededed]"
-                >
-                  Email <span className="text-red-600">*</span>
-                </label>
-                <input
+                <Input
                   type="email"
-                  name="email"
-                  id="email"
-                  className="bg-[#1f1f1f] sm:text-sm rounded-lg block w-full p-3 placeholder-[#ededed]/50"
-                  placeholder="name@example.com"
-                  required
+                  label="Email"
+                  size="lg"
+                  variant="underlined"
+                  isRequired
                 />
               </div>
               <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-[#ededed]"
-                >
-                  Password <span className="text-red-600">*</span>
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-[#1f1f1f] sm:text-sm rounded-lg block w-full p-3 placeholder-[#ededed]/50"
-                  required
+                <Input
+                  label="Password"
+                  variant="underlined"
+                  size="lg"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  type={isVisible ? "text" : "password"}
+                  isRequired
                 />
               </div>
               <button
