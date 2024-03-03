@@ -8,7 +8,7 @@ export default function Navigationbar() {
   const router = useRouter();
 
   return (
-    <nav className="sticky bg-black top-0 flex py-4 px-16 items-center justify-between border-b-2 border-[#333333] back">
+    <nav className="sticky z-10 bg-black/70 backdrop-blur-lg top-0 flex py-4 px-16 items-center justify-between border-b-2 border-[#333333] back">
       <div className="flex items-center">
         <Link href="/">
           <h1 className="text-3xl font-bold mr-12 text-[#ededed]">
@@ -47,6 +47,17 @@ export default function Navigationbar() {
               } transition-all`}
             >
               Profile
+            </li>
+          </Link>
+          <Link href="/product">
+            <li
+              className={`font-medium text-md ${
+                pathname === "/product"
+                  ? "text-[#0070f3] font-semibold"
+                  : "text-[#888888] hover:text-[#ededed]"
+              } transition-all`}
+            >
+              Product
             </li>
           </Link>
         </ul>
