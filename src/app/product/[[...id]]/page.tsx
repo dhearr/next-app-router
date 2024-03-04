@@ -1,10 +1,17 @@
 type ProductPageProps = { params: { id: string[] } };
 
 async function getProducts() {
-  const res = await fetch("https://fakestoreapi.com/products");
+  // const res = await fetch("https://fakestoreapi.com/products");
+  const res = await fetch("http://localhost:3000/api/product", {
+    cache: "force-cache",
+    next: {
+      // revalidate: 20,
+      tags: ["products"],
+    },
+  });
 
   if (!res.ok) {
-    console.log("error");
+    throw new Error("Failed to fetch data");
   }
 
   return res.json();
@@ -15,10 +22,10 @@ export default async function ProductPage(props: ProductPageProps) {
   // console.log(products);
 
   return (
-    <div className="grid grid-cols-4 gap-5 my-10 mx-10">
+    <div className="grid grid-cols-4 gap-5 my-10 mx-16">
       {/* <h1>{params.id ? "Detail Product Page" : "Product Page"}</h1> */}
-      {products.length > 0 &&
-        products.map((product: any) => (
+      {products.data.length > 0 &&
+        products.data.map((product: any) => (
           <div
             key={product.id}
             className="w-full max-w-sm bg-[#0a0a0a] border border-[#444746] rounded-lg shadow"
