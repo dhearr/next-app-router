@@ -1,13 +1,16 @@
 type ProductPageProps = { params: { id: string[] } };
 
 async function getProducts() {
-  // const res = await fetch("https://fakestoreapi.com/products");
+  // const res = await fetch("https://fakestoreapi.com/products", {
+  //   cache: "no-store",
+  // });
   const res = await fetch("http://localhost:3000/api/product", {
-    cache: "force-cache",
-    next: {
-      // revalidate: 20,
-      tags: ["products"],
-    },
+    // cache: "force-cache",
+    cache: "no-store",
+    // next: {
+    // revalidate: 20,
+    //   tags: ["products"],
+    // },
   });
 
   if (!res.ok) {
@@ -32,7 +35,7 @@ export default async function ProductPage(props: ProductPageProps) {
           >
             <a href="#">
               <img
-                className="p-8 rounded-t-lg object-cover w-full h-96"
+                className="p-5 rounded-t-lg object-cover w-full h-96"
                 src={product.image}
                 alt={product.title}
               />
