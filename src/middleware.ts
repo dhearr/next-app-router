@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export default function middleware(request: NextRequest) {
-  const isLogin = false;
+  const isLogin = true;
 
   if (!isLogin) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -10,5 +10,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/product"],
+  matcher: ["/dashboard/:path*", "/about/:path*"],
 };
