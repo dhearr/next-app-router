@@ -1,27 +1,11 @@
+import { getProducts } from "@/services/products";
+import Link from "next/link";
+
 type ProductPageProps = { params: { id: string[] } };
 
-async function getProducts() {
-  // const res = await fetch("https://fakestoreapi.com/products", {
-  //   cache: "no-store",
-  // });
-  const res = await fetch("http://localhost:3000/api/product", {
-    // cache: "force-cache",
-    cache: "no-store",
-    // next: {
-    // revalidate: 20,
-    //   tags: ["products"],
-    // },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
 export default async function ProductPage(props: ProductPageProps) {
   const { params } = props;
-  const products = await getProducts();
+  const products = await getProducts("http://localhost:3000/api/product");
   // console.log(products);
 
   return (
@@ -33,19 +17,15 @@ export default async function ProductPage(props: ProductPageProps) {
             key={product.id}
             className="w-full max-w-sm bg-[#0a0a0a] border border-[#444746] rounded-lg shadow"
           >
-            <a href="#">
-              <img
-                className="p-5 rounded-t-lg object-cover w-full h-96"
-                src={product.image}
-                alt={product.title}
-              />
-            </a>
+            <img
+              className="p-5 rounded-t-lg object-cover w-full h-96"
+              src={product.image}
+              alt={product.title}
+            />
             <div className="px-5 pb-5">
-              <a href="#">
-                <h5 className="text-xl font-semibold tracking-tight text-white truncate">
-                  {product.title}
-                </h5>
-              </a>
+              <h5 className="text-xl font-semibold tracking-tight text-white truncate">
+                {product.title}
+              </h5>
               <div className="flex items-center mt-2.5 mb-5">
                 <div className="flex items-center space-x-1 rtl:space-x-reverse">
                   <svg
@@ -105,12 +85,14 @@ export default async function ProductPage(props: ProductPageProps) {
                     currency: "USD",
                   })}
                 </span>
-                <button
-                  type="button"
-                  className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-2 px-5 rounded-md text-md font-medium transition-all"
-                >
-                  Detail
-                </button>
+                <Link href={`/product/detail/${product.id}`}>
+                  <button
+                    type="button"
+                    className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-2 px-5 rounded-md text-md font-medium transition-all"
+                  >
+                    Detail
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
