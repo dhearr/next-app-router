@@ -1,30 +1,46 @@
 "use client";
 
 import { Input } from "@nextui-org/input";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
+  const { push } = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
-    fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: e.currentTarget.email.value,
-        password: e.currentTarget.password.value,
-      }),
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: e.target.email.value,
+        password: e.target.password.value,
+        callbackUrl: "/dashboard",
+      });
+      if (!res?.error) {
+        push("/");
+      } else {
+        console.log(res.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <section className="bg-black">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <Link href="/">
+          <h1 className="text-3xl font-bold mb-5 text-[#ededed]">
+            Company<span className="text-sm">.Js</span>
+          </h1>
+        </Link>
         <div className="w-full bg-[#0a0a0a] rounded-lg shadow border border-[#444746] md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight  md:text-2xl text-[#ededed]">
@@ -39,7 +55,7 @@ export default function LoginPage() {
                   type="email"
                   label="Email"
                   name="email"
-                  size="lg"
+                  size="sm"
                   variant="underlined"
                   isRequired
                 />
@@ -49,7 +65,7 @@ export default function LoginPage() {
                   label="Password"
                   name="password"
                   variant="underlined"
-                  size="lg"
+                  size="sm"
                   endContent={
                     <button
                       className="focus:outline-none"

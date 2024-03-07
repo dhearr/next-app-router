@@ -1,10 +1,12 @@
 "use client";
 
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Navigationbar() {
   const pathname = usePathname();
+  const { status }: { status: string } = useSession();
   const router = useRouter();
 
   return (
@@ -12,7 +14,7 @@ export default function Navigationbar() {
       <div className="flex items-center">
         <Link href="/">
           <h1 className="text-3xl font-bold mr-12 text-[#ededed]">
-            Navbar<span className="text-sm">.Js</span>
+            Company<span className="text-sm">.Js</span>
           </h1>
         </Link>
         <ul className="flex gap-10">
@@ -63,20 +65,32 @@ export default function Navigationbar() {
         </ul>
       </div>
       <div className="flex gap-4">
-        <button
-          type="button"
-          className="bg-[#0a0a0a] hover:bg-[#1f1f1f] py-1 px-5 rounded-md text-md text-[#ededed] font-medium border border-[#444746] transition-all"
-          onClick={() => router.push("/register")}
-        >
-          Sign Up
-        </button>
-        <button
-          type="button"
-          className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-1 px-5 rounded-md text-md font-medium transition-all"
-          onClick={() => router.push("/login")}
-        >
-          Sign In
-        </button>
+        {status === "authenticated" ? (
+          <button
+            type="button"
+            className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-1 px-5 rounded-md text-md font-medium transition-all"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="bg-[#0a0a0a] hover:bg-[#1f1f1f] py-1 px-5 rounded-md text-md text-[#ededed] font-medium border border-[#444746] transition-all"
+              onClick={() => router.push("/register")}
+            >
+              Sign Up
+            </button>
+            <button
+              type="button"
+              className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-1 px-5 rounded-md text-md font-medium transition-all"
+              onClick={() => signIn()}
+            >
+              Sign In
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

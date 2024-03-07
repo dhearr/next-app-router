@@ -14,6 +14,11 @@ export default function RegisterPage() {
   return (
     <section className="bg-black">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <Link href="/">
+          <h1 className="text-3xl font-bold mb-5 text-[#ededed]">
+            Company<span className="text-sm">.Js</span>
+          </h1>
+        </Link>
         <div className="w-full bg-[#0a0a0a] rounded-lg shadow border border-[#444746] md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight  md:text-2xl text-[#ededed]">
@@ -24,7 +29,7 @@ export default function RegisterPage() {
                 <Input
                   type="text"
                   label="Fullname"
-                  size="lg"
+                  size="sm"
                   variant="underlined"
                   isRequired
                 />
@@ -33,7 +38,7 @@ export default function RegisterPage() {
                 <Input
                   type="email"
                   label="Email"
-                  size="lg"
+                  size="sm"
                   variant="underlined"
                   isRequired
                 />
@@ -42,7 +47,7 @@ export default function RegisterPage() {
                 <Input
                   label="Password"
                   variant="underlined"
-                  size="lg"
+                  size="sm"
                   endContent={
                     <button
                       className="focus:outline-none"

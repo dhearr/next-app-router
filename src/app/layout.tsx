@@ -2,12 +2,13 @@
 
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import Navigationbar from "./navbar";
 import { usePathname } from "next/navigation";
 import { Providers } from "./providers";
+import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -24,11 +25,13 @@ export default function RootLayout({
   const pathname = usePathname();
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
-        <Providers>
-          {!navbarDisabled.includes(pathname) && <Navigationbar />}
-          {children}
-        </Providers>
+      <body className={roboto.className}>
+        <SessionProvider>
+          <Providers>
+            {!navbarDisabled.includes(pathname) && <Navigationbar />}
+            {children}
+          </Providers>
+        </SessionProvider>
       </body>
     </html>
   );
