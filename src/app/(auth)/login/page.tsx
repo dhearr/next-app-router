@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }: any) {
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,12 +32,12 @@ export default function LoginPage() {
         redirect: false,
         email: e.target.email.value,
         password: e.target.password.value,
-        callbackUrl: "/dashboard",
+        callbackUrl: searchParams.callbackUrl,
       });
       if (!res?.error) {
         e.target.reset();
         setIsLoading(false);
-        push("/dashboard");
+        push(searchParams.callbackUrl || "/");
       } else {
         if (res.status === 401) {
           e.target.reset();
