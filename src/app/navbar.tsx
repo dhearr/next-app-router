@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 
 export default function Navigationbar() {
   const pathname = usePathname();
-  const { status }: { status: string } = useSession();
+  const { data: session, status }: { data: any; status: string } = useSession();
   const router = useRouter();
 
   return (
@@ -66,13 +66,16 @@ export default function Navigationbar() {
       </div>
       <div className="flex gap-4">
         {status === "authenticated" ? (
-          <button
-            type="button"
-            className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-1 px-5 rounded-md text-md font-medium transition-all"
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </button>
+          <div className="flex items-center">
+            <h4 className="text-white mr-3">{session?.user?.fullname}</h4>
+            <button
+              type="button"
+              className="bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-1 px-5 rounded-md text-md font-medium transition-all"
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </button>
+          </div>
         ) : (
           <>
             <button

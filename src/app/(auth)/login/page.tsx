@@ -4,18 +4,29 @@ import { Input } from "@nextui-org/input";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const handleLogin = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
     try {
       const res = await signIn("credentials", {
         redirect: false,
@@ -24,9 +35,15 @@ export default function LoginPage() {
         callbackUrl: "/dashboard",
       });
       if (!res?.error) {
-        push("/");
+        e.target.reset();
+        setIsLoading(false);
+        push("/dashboard");
       } else {
-        console.log(res.error);
+        if (res.status === 401) {
+          e.target.reset();
+          setIsLoading(false);
+          return setError("Email or password is incorrect");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -57,6 +74,9 @@ export default function LoginPage() {
                   name="email"
                   size="sm"
                   variant="underlined"
+                  isInvalid={error !== ""}
+                  errorMessage={error !== "" ? error : undefined}
+                  ref={inputRef}
                   isRequired
                 />
               </div>
@@ -66,6 +86,8 @@ export default function LoginPage() {
                   name="password"
                   variant="underlined"
                   size="sm"
+                  isInvalid={error !== ""}
+                  errorMessage={error !== "" ? error : undefined}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -84,10 +106,15 @@ export default function LoginPage() {
                 />
               </div>
               <button
+                disabled={isLoading}
                 type="submit"
-                className="w-full bg-[#ededed] text-[#0a0a0a] hover:bg-[#d0d0d0] py-2.5 px-5 rounded-md text-md font-medium transition-all"
+                className="w-full bg-green-700 text-[#ededed] hover:bg-green-600 py-2.5 px-5 rounded-md text-md font-medium transition-all"
               >
-                Sign In
+                {isLoading ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  "Sign In"
+                )}
               </button>
               <p className="text-sm text-center font-light text-[#ededed]/50">
                 Don’t have an account?{" "}
