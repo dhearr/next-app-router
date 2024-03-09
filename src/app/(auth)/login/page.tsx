@@ -116,6 +116,18 @@ export default function LoginPage({ searchParams }: any) {
                   "Sign In"
                 )}
               </button>
+              <hr />
+              <button
+                type="button"
+                onClick={() =>
+                  signIn("google", {
+                    callbackUrl: searchParams.callbackUrl,
+                    redirect: false,
+                  })
+                }
+              >
+                Sign in with Google
+              </button>
               <p className="text-sm text-center font-light text-[#ededed]/50">
                 Don’t have an account?{" "}
                 <Link
