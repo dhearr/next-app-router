@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" data-theme="black">
       <body className={roboto.className}>
         <SessionProvider>
           <Providers>

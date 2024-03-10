@@ -2,6 +2,7 @@
 
 import { Input } from "@nextui-org/input";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -119,6 +120,7 @@ export default function LoginPage({ searchParams }: any) {
               <hr />
               <button
                 type="button"
+                className="w-full flex items-center justify-center bg-blue-700 text-[#ededed] hover:bg-blue-600 py-2.5 px-5 rounded-md text-md font-medium transition-all"
                 onClick={() =>
                   signIn("google", {
                     callbackUrl: searchParams.callbackUrl,
@@ -126,6 +128,15 @@ export default function LoginPage({ searchParams }: any) {
                   })
                 }
               >
+                <span className="inline-flex">
+                  <Image
+                    src="/img/google.png"
+                    alt="google"
+                    height={200}
+                    width={200}
+                    className="h-7 w-7 mr-2"
+                  />
+                </span>
                 Sign in with Google
               </button>
               <p className="text-sm text-center font-light text-[#ededed]/50">

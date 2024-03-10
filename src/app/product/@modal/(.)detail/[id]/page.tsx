@@ -1,6 +1,7 @@
-import Modal from "@/components/core/Modal";
 import { getProducts } from "@/services/products";
 import { Button, Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
+import dynamic from "next/dynamic";
+const Modal = dynamic(() => import("@/components/core/Modal"));
 
 export default async function ModalDetailProduct(props: any) {
   const { params } = props;

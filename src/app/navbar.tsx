@@ -11,7 +11,7 @@ export default function Navigationbar() {
 
   return (
     <nav className="sticky z-10 bg-black/70 backdrop-blur-lg top-0 flex py-4 px-16 items-center justify-between border-b-2 border-[#333333] back">
-      <div className="flex items-center">
+      <div className="flex items-center h-100">
         <Link href="/">
           <h1 className="text-3xl font-bold mr-12 text-[#ededed]">
             Company<span className="text-sm">.Js</span>
